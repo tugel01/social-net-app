@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:social_media_app/components/my_drawer.dart';
 import 'package:social_media_app/components/my_list_tile.dart';
@@ -13,7 +12,7 @@ class HomePage extends StatelessWidget {
   final FirestoreDatabase database = FirestoreDatabase();
 
   // controller
-  TextEditingController newPostController = TextEditingController();
+  final TextEditingController newPostController = TextEditingController();
 
   void postMessage() {
     if (newPostController.text.isNotEmpty) {
@@ -80,7 +79,6 @@ class HomePage extends StatelessWidget {
                     final post = posts[index];
                     String message = post['PostMessage'];
                     String userEmail = post['UserEmail'];
-                    Timestamp timestamp = post['TimeStamp'];
 
                     return MyListTile(title: message, subtitle: userEmail);
                   },

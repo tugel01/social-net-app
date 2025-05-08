@@ -22,6 +22,15 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final TextEditingController confirmPwrdController = TextEditingController();
 
+  @override
+  void dispose() {
+    usernameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPwrdController.dispose();
+    super.dispose();
+  }
+
   Future<void> registerUser() async {
     // loading circle
     showDialog(
@@ -73,98 +82,100 @@ class _RegisterPageState extends State<RegisterPage> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(25.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // logo
-              Icon(
-                Icons.person_4,
-                size: 80,
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
-
-              const SizedBox(height: 25),
-
-              // app name
-              Text("A P P N A M E", style: TextStyle(fontSize: 20)),
-
-              const SizedBox(height: 25),
-
-              // username textfield
-              MyTextfield(
-                hintText: 'Your username',
-                obscureText: false,
-                controller: usernameController,
-              ),
-
-              const SizedBox(height: 10),
-
-              // email textfield
-              MyTextfield(
-                hintText: 'Your email',
-                obscureText: false,
-                controller: emailController,
-              ),
-
-              const SizedBox(height: 10),
-
-              // password textfield
-              MyTextfield(
-                hintText: 'Your password',
-                obscureText: true,
-                controller: passwordController,
-              ),
-
-              const SizedBox(height: 10),
-
-              // confirmPassword textfield
-              MyTextfield(
-                hintText: 'Confirm your password',
-                obscureText: true,
-                controller: confirmPwrdController,
-              ),
-
-              const SizedBox(height: 10),
-
-              // forgot password
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    'Forgot password?',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.inversePrimary,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // logo
+                Icon(
+                  Icons.person_4,
+                  size: 80,
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
+            
+                const SizedBox(height: 25),
+            
+                // app name
+                Text("A P P N A M E", style: TextStyle(fontSize: 20)),
+            
+                const SizedBox(height: 25),
+            
+                // username textfield
+                MyTextfield(
+                  hintText: 'Your username',
+                  obscureText: false,
+                  controller: usernameController,
+                ),
+            
+                const SizedBox(height: 10),
+            
+                // email textfield
+                MyTextfield(
+                  hintText: 'Your email',
+                  obscureText: false,
+                  controller: emailController,
+                ),
+            
+                const SizedBox(height: 10),
+            
+                // password textfield
+                MyTextfield(
+                  hintText: 'Your password',
+                  obscureText: true,
+                  controller: passwordController,
+                ),
+            
+                const SizedBox(height: 10),
+            
+                // confirmPassword textfield
+                MyTextfield(
+                  hintText: 'Confirm your password',
+                  obscureText: true,
+                  controller: confirmPwrdController,
+                ),
+            
+                const SizedBox(height: 10),
+            
+                // forgot password
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Forgot password?',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 25),
-
-              // sign up button
-              MyButton(text: 'Sign up', onTap: registerUser),
-
-              const SizedBox(height: 15),
-
-              // don't have an account? Sign up here
-              Row(
-                children: [
-                  Text(
-                    'Already have an account?',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.inversePrimary,
+                  ],
+                ),
+            
+                const SizedBox(height: 25),
+            
+                // sign up button
+                MyButton(text: 'Sign up', onTap: registerUser),
+            
+                const SizedBox(height: 15),
+            
+                // don't have an account? Sign up here
+                Row(
+                  children: [
+                    Text(
+                      'Already have an account?',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                      ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: widget.onTap,
-                    child: const Text(
-                      ' Sign in here',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                    GestureDetector(
+                      onTap: widget.onTap,
+                      child: const Text(
+                        ' Sign in here',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
