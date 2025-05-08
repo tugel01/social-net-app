@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:social_media_app/pages/login_page.dart';
+import 'package:social_media_app/theme/dark_mode.dart';
+import 'package:social_media_app/theme/light_mode.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: LoginPage(),
+      theme: lightMode,
+      darkTheme: darkMode,
     );
   }
 }
