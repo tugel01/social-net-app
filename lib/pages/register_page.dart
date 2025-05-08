@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:social_media_app/components/my_button.dart';
 import 'package:social_media_app/components/my_textfield.dart';
 
-class LoginPage extends StatelessWidget {
+class RegisterPage extends StatelessWidget {
   final void Function()? onTap;
-  LoginPage({super.key, required this.onTap});
+  RegisterPage({super.key, required this.onTap});
 
+  final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
-  void login() {}
+  final TextEditingController confirmPwrdController = TextEditingController();
+  
+  void register() {}
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,16 @@ class LoginPage extends StatelessWidget {
 
               const SizedBox(height: 25),
 
-              // login textfield
+              // username textfield
+              MyTextfield(
+                hintText: 'Your username',
+                obscureText: false,
+                controller: usernameController,
+              ),
+
+              const SizedBox(height: 10),
+
+              // email textfield
               MyTextfield(
                 hintText: 'Your email',
                 obscureText: false,
@@ -49,6 +60,15 @@ class LoginPage extends StatelessWidget {
                 hintText: 'Your password',
                 obscureText: true,
                 controller: passwordController,
+              ),
+
+              const SizedBox(height: 10),
+
+              // confirmPassword textfield
+              MyTextfield(
+                hintText: 'Confirm your password',
+                obscureText: true,
+                controller: confirmPwrdController,
               ),
 
               const SizedBox(height: 10),
@@ -68,8 +88,8 @@ class LoginPage extends StatelessWidget {
 
               const SizedBox(height: 25),
 
-              // sign in button
-              MyButton(text: 'Sign in', onTap: login),
+              // sign up button
+              MyButton(text: 'Sign up', onTap: register),
 
               const SizedBox(height: 15),
 
@@ -77,7 +97,7 @@ class LoginPage extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    'Don\'t have an account?',
+                    'Already have an account?',
                     style: TextStyle(
                       color: Theme.of(context).colorScheme.inversePrimary,
                     ),
@@ -85,7 +105,7 @@ class LoginPage extends StatelessWidget {
                   GestureDetector(
                     onTap: onTap,
                     child: const Text(
-                      ' Sign up here',
+                      ' Sign in here',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
