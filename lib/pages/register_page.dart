@@ -46,7 +46,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
         // create user document and store to firestore
         createUserDocument(userCredential);
-        if (context.mounted) Navigator.pop(context);
+        Navigator.pop(context);
       } on FirebaseAuthException catch (e) {
         Navigator.pop(context);
         displayMessageToUser(e.code, context);
