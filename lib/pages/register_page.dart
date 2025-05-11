@@ -52,9 +52,11 @@ class _RegisterPageState extends State<RegisterPage> {
               email: emailController.text,
               password: passwordController.text,
             );
+        await userCredential.user?.updateDisplayName(usernameController.text);
 
         // create user document and store to firestore
         createUserDocument(userCredential);
+        if (!mounted) return;
         Navigator.pop(context);
       } on FirebaseAuthException catch (e) {
         Navigator.pop(context);
@@ -92,70 +94,55 @@ class _RegisterPageState extends State<RegisterPage> {
                   size: 80,
                   color: Theme.of(context).colorScheme.inversePrimary,
                 ),
-            
+
                 const SizedBox(height: 25),
-            
+
                 // app name
-                Text("A P P N A M E", style: TextStyle(fontSize: 20)),
-            
+                const Text("A P P N A M E", style: TextStyle(fontSize: 20)),
+
                 const SizedBox(height: 25),
-            
+
                 // username textfield
                 MyTextfield(
                   hintText: 'Your username',
                   obscureText: false,
                   controller: usernameController,
                 ),
-            
+
                 const SizedBox(height: 10),
-            
+
                 // email textfield
                 MyTextfield(
                   hintText: 'Your email',
                   obscureText: false,
                   controller: emailController,
                 ),
-            
+
                 const SizedBox(height: 10),
-            
+
                 // password textfield
                 MyTextfield(
                   hintText: 'Your password',
                   obscureText: true,
                   controller: passwordController,
                 ),
-            
+
                 const SizedBox(height: 10),
-            
+
                 // confirmPassword textfield
                 MyTextfield(
                   hintText: 'Confirm your password',
                   obscureText: true,
                   controller: confirmPwrdController,
                 ),
-            
-                const SizedBox(height: 10),
-            
-                // forgot password
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'Forgot password?',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.inversePrimary,
-                      ),
-                    ),
-                  ],
-                ),
-            
-                const SizedBox(height: 25),
-            
+
+                const SizedBox(height: 35),
+
                 // sign up button
                 MyButton(text: 'Sign up', onTap: registerUser),
-            
+
                 const SizedBox(height: 15),
-            
+
                 // don't have an account? Sign up here
                 Row(
                   children: [

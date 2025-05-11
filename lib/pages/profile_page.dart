@@ -41,7 +41,7 @@ class ProfilePage extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 50.0, left: 25),
-                    child: Row(children: [MyBackButton()]),
+                    child: const Row(children: [MyBackButton()]),
                   ),
                   SizedBox(height: 25),
                   Container(
@@ -64,7 +64,7 @@ class ProfilePage extends StatelessWidget {
 
                   Text(
                     user['email'],
-                    style: TextStyle(color: Colors.grey[600]),
+                    style: const TextStyle(color: Color.fromARGB(255, 120, 120, 120)),
                   ),
                 ],
               ),

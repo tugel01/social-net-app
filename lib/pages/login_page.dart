@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:social_media_app/components/my_button.dart';
+import 'package:social_media_app/components/my_forgot_password_dialog.dart';
 import 'package:social_media_app/components/my_textfield.dart';
 import 'package:social_media_app/helper/helper_function.dart';
 
@@ -35,7 +36,8 @@ class _LoginPageState extends State<LoginPage> {
         email: emailController.text,
         password: passwordController.text,
       );
-      if (mounted) Navigator.pop(context);
+      if (!mounted) return;
+      Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
       displayMessageToUser(e.code, context);
@@ -62,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 25),
 
               // app name
-              Text("A P P N A M E", style: TextStyle(fontSize: 20)),
+              const Text("A P P N A M E", style: TextStyle(fontSize: 20)),
 
               const SizedBox(height: 25),
 
@@ -88,10 +90,18 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    'Forgot password?',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.inversePrimary,
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => ForgotPasswordDialog(),
+                      );
+                    },
+                    child: Text(
+                      'Forgot password?',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                      ),
                     ),
                   ),
                 ],

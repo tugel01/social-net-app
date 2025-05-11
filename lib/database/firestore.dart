@@ -22,7 +22,9 @@ class FirestoreDatabase {
   );
   // post a message
   Future<void> addPost(String message) {
+    user?.reload();
     return posts.add({
+      'UserName': user!.displayName,
       'UserEmail': user!.email,
       'PostMessage': message,
       'TimeStamp': Timestamp.now(),

@@ -36,7 +36,7 @@ class UsersPage extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 50.0, left: 25),
                 child: Row(children: [MyBackButton()]),
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.all(0),
