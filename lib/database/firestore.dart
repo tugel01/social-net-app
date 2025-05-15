@@ -20,15 +20,32 @@ class FirestoreDatabase {
   final CollectionReference posts = FirebaseFirestore.instance.collection(
     "Posts",
   );
+
   // post a message
-  Future<void> addPost(String message) {
-    user?.reload();
-    return posts.add({
-      'UserName': user!.displayName,
+  Future<void> addPost(String message) async {
+    if (user == null) return;
+
+    await user?.reload();
+    user = FirebaseAuth.instance.currentUser;
+
+    DocumentReference postRef = posts.doc();
+
+    await postRef.set({
+      'postId': postRef.id,
+      'UserName': user!.displayName ?? 'Unknown',
       'UserEmail': user!.email,
       'PostMessage': message,
       'TimeStamp': Timestamp.now(),
     });
+  }
+
+  Future<void> deletePost(String postId) async {
+    await posts.doc(postId).delete();
+  }
+
+  Future<void> editPost(String postId, String newText) async {
+    final oldPostRef = posts.doc(postId);
+    await oldPostRef.update({'PostMessage': newText, 'TimeStamp': Timestamp.now()});
   }
 
   // read posts from db

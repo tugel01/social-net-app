@@ -45,6 +45,8 @@ class _RegisterPageState extends State<RegisterPage> {
       // error message for user
       displayMessageToUser('Passwords don\'t match', context);
     } else {
+      Navigator.pop(context);
+
       // create a user
       try {
         UserCredential? userCredential = await FirebaseAuth.instance
@@ -53,13 +55,11 @@ class _RegisterPageState extends State<RegisterPage> {
               password: passwordController.text,
             );
         await userCredential.user?.updateDisplayName(usernameController.text);
+        await userCredential.user?.reload();
 
         // create user document and store to firestore
         createUserDocument(userCredential);
-        if (!mounted) return;
-        Navigator.pop(context);
       } on FirebaseAuthException catch (e) {
-        Navigator.pop(context);
         displayMessageToUser(e.code, context);
       }
     }

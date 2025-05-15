@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 class ForgotPasswordDialog extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
 
+  ForgotPasswordDialog({super.key});
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
