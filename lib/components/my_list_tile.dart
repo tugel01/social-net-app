@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class MyListTile extends StatelessWidget {
   final String title;
   final String subtitle;
-  
+  final Function()? onTapp;
+
   const MyListTile({
     super.key,
     required this.title,
     required this.subtitle,
+    this.onTapp,
   });
 
   @override
@@ -20,6 +22,7 @@ class MyListTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: ListTile(
+          onTap: onTapp,
           title: Text(title),
           subtitle: Text(
             subtitle,

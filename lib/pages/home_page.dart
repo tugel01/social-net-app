@@ -19,8 +19,17 @@ class _HomePageState extends State<HomePage> {
   // firestore access
   final FirestoreDatabase database = FirestoreDatabase();
 
+  var searchQuery = '';
   // controller
   final TextEditingController newPostController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    newPostController.dispose();
+    searchController.dispose();
+    super.dispose();
+  }
 
   void postMessage() {
     if (newPostController.text.isNotEmpty) {
@@ -96,8 +105,43 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(left: 25.0, right: 25, bottom: 25),
+            child: Row(
+              children: [
+                Expanded(
+                  child: MyTextfield(
+                    hintText: 'Or search posts that begin with...',
+                    obscureText: false,
+                    controller: searchController,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      searchQuery = searchController.text;
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    margin: const EdgeInsets.only(left: 10),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.secondary,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.search,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           StreamBuilder(
-            stream: database.getPostsStream(),
+            stream: database.getPostsStream(searchQuery),
             builder: (context, snapshot) {
               // loading circle
               if (snapshot.connectionState == ConnectionState.waiting) {

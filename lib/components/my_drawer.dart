@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -49,9 +50,19 @@ class MyDrawer extends StatelessWidget {
                     color: Theme.of(context).colorScheme.inversePrimary,
                   ),
                   title: const Text('P R O F I L E'),
-                  onTap: () {
+                  onTap: () async {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, 'profile_page');
+                    final user = FirebaseAuth.instance.currentUser;
+                    final doc =
+                        await FirebaseFirestore.instance
+                            .collection('Users')
+                            .doc(user!.email)
+                            .get();
+                    Navigator.pushNamed(
+                      context,
+                      'profile_page',
+                      arguments: doc,
+                    );
                   },
                 ),
               ),

@@ -32,21 +32,11 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future<void> registerUser() async {
-    // loading circle
-    showDialog(
-      context: context,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
-    );
-
     // check passwords match
     if (passwordController.text != confirmPwrdController.text) {
-      // pop loading circle
-      Navigator.pop(context);
       // error message for user
       displayMessageToUser('Passwords don\'t match', context);
     } else {
-      Navigator.pop(context);
-
       // create a user
       try {
         UserCredential? userCredential = await FirebaseAuth.instance

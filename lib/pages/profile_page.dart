@@ -1,78 +1,99 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:social_media_app/components/my_back_button.dart';
+import 'package:social_media_app/components/my_post_tile.dart';
 
 class ProfilePage extends StatelessWidget {
-  ProfilePage({super.key});
+  final Map<String, dynamic> userData;
 
-  // current user
-  final User? currentUser = FirebaseAuth.instance.currentUser;
-
-  // future to getch user details
-  Future<DocumentSnapshot<Map<String, dynamic>>> getUserDetails() async {
-    return await FirebaseFirestore.instance
-        .collection("Users")
-        .doc(currentUser!.email)
-        .get();
-  }
+  const ProfilePage({super.key, required this.userData});
 
   @override
   Widget build(BuildContext context) {
+    final username = userData['username'] ?? 'No username';
+    final email = userData['email'] ?? 'No email';
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      body: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        future: getUserDetails(),
-        builder: (context, snapshot) {
-          // loading circle
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          // error
-          else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          }
-          // data
-          else if (snapshot.hasData) {
-            Map<String, dynamic>? user = snapshot.data!.data();
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 50.0, left: 25),
+            child: const Row(children: [MyBackButton()]),
+          ),
+          const SizedBox(height: 25),
+          Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary,
+              borderRadius: BorderRadius.circular(24),
+            ),
+            padding: const EdgeInsets.all(25),
+            child: const Icon(Icons.person, size: 64),
+          ),
+          const SizedBox(height: 25),
+          Text(
+            username,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            email,
+            style: const TextStyle(
+              color: Color.fromARGB(255, 120, 120, 120),
+            ),
+          ),
+          const SizedBox(height: 25),
 
-            return Center(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 50.0, left: 25),
-                    child: const Row(children: [MyBackButton()]),
-                  ),
-                  SizedBox(height: 25),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
-                      borderRadius: BorderRadius.circular(24),
-                    ),
-                    padding: const EdgeInsets.all(25),
-                    child: const Icon(Icons.person, size: 64),
-                  ),
-                  const SizedBox(height: 25),
-                  Text(
-                    user!['username'],
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
+          Expanded(
+            child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream: FirebaseFirestore.instance
+                  .collection("Posts")
+                  .orderBy('TimeStamp', descending: true)
+                  .where('UserName', isEqualTo: username)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                }
+                final posts = snapshot.data?.docs ?? [];
 
-                  Text(
-                    user['email'],
-                    style: const TextStyle(color: Color.fromARGB(255, 120, 120, 120)),
-                  ),
-                ],
-              ),
-            );
-          } else {
-            return const Text('No Data');
-          }
-        },
+                if (posts.isEmpty) {
+                  return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(25.0),
+                      child: Text('No posts'),
+                    ),
+                  );
+                }
+
+                return ListView.builder(
+                  itemCount: posts.length,
+                  itemBuilder: (context, index) {
+                    final post = posts[index].data();
+                    String message = post['PostMessage'] ?? '';
+                    String userEmail = post['UserEmail'] ?? '';
+                    Timestamp timestamp = post['TimeStamp'] ?? Timestamp.now();
+                    String username = post['UserName'] ?? '';
+
+                    return MyPostTile(
+                      isCurrentUserPost: false, // or compare with current user if needed
+                      username: username,
+                      message: message,
+                      email: userEmail,
+                      time: timestamp,
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

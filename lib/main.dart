@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:social_media_app/auth/auth.dart';
@@ -28,7 +30,10 @@ class MyApp extends StatelessWidget {
       routes: {
         'login_register_page': (context) => const LoginOrRegister(),
         'home_page': (context) => HomePage(),
-        'profile_page': (context) => ProfilePage(),
+        'profile_page': (context) {
+          final args = ModalRoute.of(context)!.settings.arguments as DocumentSnapshot;
+          return ProfilePage(userData: args.data() as Map<String, dynamic>);
+        },
         'users_page': (context) => const UsersPage(),
       },
     );

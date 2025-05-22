@@ -45,16 +45,30 @@ class FirestoreDatabase {
 
   Future<void> editPost(String postId, String newText) async {
     final oldPostRef = posts.doc(postId);
-    await oldPostRef.update({'PostMessage': newText, 'TimeStamp': Timestamp.now()});
+    await oldPostRef.update({
+      'PostMessage': newText,
+      'TimeStamp': Timestamp.now(),
+    });
   }
 
   // read posts from db
-  Stream<QuerySnapshot> getPostsStream() {
-    final postsStream =
+  Stream<QuerySnapshot> getPostsStream(String searchPost) {
+    if (searchPost == '') {
+      final postsStream =
+          FirebaseFirestore.instance
+              .collection("Posts")
+              .orderBy('TimeStamp', descending: true)
+              .snapshots();
+      return postsStream;
+    }
+
+    final postsds =
         FirebaseFirestore.instance
             .collection("Posts")
-            .orderBy('TimeStamp', descending: true)
-            .snapshots();
-    return postsStream;
+            .orderBy('PostMessage')
+            .startAt([searchPost])
+            .endAt([searchPost + "\uf8ff"])
+            .snapshots(); // FIGURE IT OUT LATER (SEARCH)
+    return postsds;
   }
 }
