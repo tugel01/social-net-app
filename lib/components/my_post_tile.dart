@@ -25,6 +25,7 @@ class MyPostTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // default widget
     Widget postContent = Container(
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primary,
@@ -90,6 +91,7 @@ class MyPostTile extends StatelessWidget {
       ),
     );
 
+    // If it is current user's post, add slidable actions
     return isCurrentUserPost
         ? Padding(
           padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),

@@ -24,13 +24,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: const AuthPage(),
-      theme: lightMode,
-      darkTheme: darkMode,
+      theme: darkMode,
+      darkTheme: lightMode,
       routes: {
         'login_register_page': (context) => const LoginOrRegister(),
         'home_page': (context) => HomePage(),
         'profile_page': (context) {
-          final args = ModalRoute.of(context)!.settings.arguments as DocumentSnapshot;
+          final args =
+              ModalRoute.of(context)!.settings.arguments as DocumentSnapshot;
           return ProfilePage(userData: args.data() as Map<String, dynamic>);
         },
         'users_page': (context) => const UsersPage(),

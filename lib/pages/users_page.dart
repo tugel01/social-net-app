@@ -12,6 +12,7 @@ class UsersPage extends StatefulWidget {
 }
 
 class _UsersPageState extends State<UsersPage> {
+  // search request. empty by default
   String searchUser = '';
   @override
   Widget build(BuildContext context) {
@@ -19,11 +20,14 @@ class _UsersPageState extends State<UsersPage> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: Column(
         children: [
+          // back button
           Padding(
             padding: const EdgeInsets.only(top: 50.0, left: 25),
             child: Row(children: [MyBackButton()]),
           ),
           const SizedBox(height: 40),
+
+          // search box
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: TextField(
@@ -40,6 +44,8 @@ class _UsersPageState extends State<UsersPage> {
               ),
             ),
           ),
+
+          // list of users
           StreamBuilder(
             stream:
                 FirebaseFirestore.instance
