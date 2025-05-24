@@ -85,7 +85,7 @@ class _UsersPageState extends State<UsersPage> {
                         Navigator.pushNamed(
                           context,
                           'profile_page',
-                          arguments: user,
+                          arguments: email,
                         );
                       },
                       title: username,

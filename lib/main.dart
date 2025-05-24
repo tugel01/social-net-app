@@ -30,9 +30,8 @@ class MyApp extends StatelessWidget {
         'login_register_page': (context) => const LoginOrRegister(),
         'home_page': (context) => HomePage(),
         'profile_page': (context) {
-          final args =
-              ModalRoute.of(context)!.settings.arguments as DocumentSnapshot;
-          return ProfilePage(userData: args.data() as Map<String, dynamic>);
+          final args = ModalRoute.of(context)!.settings.arguments as String;
+          return ProfilePage(userEmail: args);
         },
         'users_page': (context) => const UsersPage(),
       },

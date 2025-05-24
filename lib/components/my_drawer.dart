@@ -53,15 +53,10 @@ class MyDrawer extends StatelessWidget {
                   onTap: () async {
                     Navigator.pop(context);
                     final user = FirebaseAuth.instance.currentUser;
-                    final doc =
-                        await FirebaseFirestore.instance
-                            .collection('Users')
-                            .doc(user!.email)
-                            .get();
                     Navigator.pushNamed(
                       context,
                       'profile_page',
-                      arguments: doc,
+                      arguments: user!.email,
                     );
                   },
                 ),
